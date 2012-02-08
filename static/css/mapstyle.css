@@ -1,0 +1,307 @@
+.floatleft {
+    float: left;
+}
+
+.floatright {
+    float: right;
+}
+
+.canvasTile {
+  /* for IE */
+  filter:alpha(opacity=75);
+  /* CSS3 standard */
+  opacity:0.75;
+}
+
+html {
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+}
+
+body {     
+    height: 100%; 
+    margin: 0px; 
+    padding: 0px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    background: #595959; 
+}
+
+.container {
+    min-width: 800px;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+/* generic stylers for shadows, gradients, rounded corners */
+.boxShadow {
+    -moz-box-shadow: rgba(0, 0, 0, 0.25) 0px 6px 4px 0;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.25) 0px 6px 4px 0;
+    -o-box-shadow: rgba(0, 0, 0, 0.25) 0px 6px 4px 0;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 6px 4px 0;
+
+	/* for IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#666666')";
+	/* For IE 5.5 - 7 */
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#666666');
+}
+
+.boxRound {
+    -moz-border-radius: 5px; 
+	-webkit-border-radius: 5px; 
+	border-radius: 5px; 
+}
+
+.boxGradient {
+	background-color: #FFFFFF;
+	background-image: -moz-linear-gradient(top, #FFFFFF, #e8e8e8); 
+	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #FFFFFF),color-stop(1, #e8e8e8)); 
+	background-image: linear-gradient(top, #FFFFFF, #e8e8e8);
+	          filter:  progid:DXImageTransform.Microsoft.gradient(startColorStr='#FFFFFF', EndColorStr='#e8e8e8'); 
+	      -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#FFFFFF', EndColorStr='#e8e8e8')"; 
+}
+
+
+/* hover label */
+#hoverLabel { 
+	display: none; position: absolute; padding: 10px;
+	width: 250px;
+	border: 1px solid black;
+	pointer-events: none;
+	background: #FFF;
+	z-index: 10;
+}
+
+.hoverText {
+    color: #aaa; font-size: 16px; font-family: Helvetica, Arial, Verdana, sans-serif;
+}
+
+.hoverList {
+    margin-top: 15px;
+}
+
+.numLine {
+    width: 100%;
+}
+
+.numLabel {
+    float: left;
+    font-size: 13px;
+    margin-top: 2px;
+    font-weight: normal;
+}
+
+.numValue {
+    float: right;
+    font-size: 13px;
+    margin-top: 2px;
+    font-weight: bold;
+    color: #000;
+}
+
+.numSelected {
+    color: #000;
+    font-weight: bold;
+}
+
+
+/* top bar */
+#top {
+    position: absolute;
+    z-index: 10;
+    padding: 5px;
+    width: 100%;
+    min-width: 800px;
+    background: #FFFFFF;
+}
+
+#top .content {
+    background: #FFFFFF;
+    width: 100%;
+}
+
+#headerBar {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -o-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    border-radius: 4px;
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.2, #669900), color-stop(0.9, #9ed43c));
+    background-image: -moz-linear-gradient(center bottom, #669900 20%, #9ed43c 90%);
+    background-color: #669900;
+    background-image: linear-gradient(bottom, #9ed43c, #669900);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#9ed43c', EndColorStr='#669900');
+    margin-top: 3px;
+    height: 34px;
+    text-align: right;
+    position: absolute;
+    left: 113px;
+    right: 18px;
+    top: 5px;
+    bottom: 45px;
+}
+
+#likes {
+  padding-top: 3px;
+  padding-left: 7px;
+  width: 285px;
+}
+
+#facebookLike {
+  margin-top: 7px;
+  float: left;
+}
+
+#twitterLike {
+  margin-top: 7px;
+  margin-right: -5px;
+  float: left;
+}
+
+#stumbleLike {
+  margin-top: 8px;
+  margin-right: 7px;
+  float: left;
+}
+
+#title {
+  text-align: left;
+  float: left;
+  color: #FFFFFF;
+  font-size: 20px;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px #777;
+  font-family: "Helvetica Neue Light", "HelveticaNeue-Light", Arial, Helvetica, sans-serif;
+  padding: 4px 10px 0 10px;
+}
+
+#logoImage {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+#logoImage img {
+    border-style: none;
+    border: 0px none;
+}
+
+#searchBox {
+    display: block;
+    padding: 4px;
+    padding-right: 10px;
+    background: #000;
+}
+
+#mapControls {
+    position: absolute;
+    right: 10px;
+    top: 65px;
+}
+
+#searchBox {
+    position: absolute;
+    right: 35px;
+    width: 250px;
+    background: #000;
+    color: #FFF;
+    padding: 5px;
+    padding-left: 6px;
+}
+
+#searchBox input {
+    font-size: 14px;
+    width: 185px;
+    margin-left: 3px;
+    color: #666;
+}
+
+/* zoom in and out buttons */
+#mapControls .zoomButton {
+  margin-bottom: 9px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 25px;
+  height: 24px;
+  color: #FFF;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+  padding-left: -3px;
+  padding-top: -6px;
+  background: #000;
+  cursor: pointer;
+}
+
+#mapControls .zoomButton:hover {
+  background: #CCC;
+}
+
+#zoomInImage {
+  overflow: hidden;
+  text-indent: -1000px;
+  background: url("../images/map_imgsheet.png") 6px -94px;
+}
+
+#zoomOutImage {
+  overflow: hidden;
+  text-indent: -1000px;
+  background: url("../images/map_imgsheet.png") -18px -94px;
+}
+
+#map {
+    position: absolute;
+    z-index: 0;
+    top: 50px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    overflow: hidden;
+}
+
+.hoverName {
+    background: #000;
+    color: #fff;
+    margin: -10px;
+    padding: 6px 10px;
+	font-weight: bold;
+}
+
+.flatBottom {
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+    -moz-border-radius-bottomleft: 0px; 
+    -moz-border-radius-bottomright: 0px;
+	-webkit-border-bottom-left-radius: 0px; 
+	-webkit-border-bottom-right-radius: 0px;
+}
+
+.infoWindowButton {
+    margin-top: 3px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #0054a6;
+    text-decoration: none;
+}
+
+.infoWindowButton:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#loadingIndicator {
+    position: absolute;
+    padding: 5px;
+    background: #FFF;
+}
