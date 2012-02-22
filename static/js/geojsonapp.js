@@ -16,8 +16,7 @@ $(function() {
 function addLayer(options) {
     var url = options['url'];
     var type = options['type'];
-
-    var fillColor = options['fillColor'];
+    var fillColor = options['color'];
 
     var layer = null, container = $("#mapContent");
     switch (type) {
@@ -46,7 +45,7 @@ function addLayer(options) {
         // geojson takes a single url
         case 'geojson':
         default:
-            layer = trulia.maps.overlays.GeoJson(geojsonmap.map, {}, , { fillColor: fillColor });
+            layer = trulia.maps.overlays.GeoJson(geojsonmap.map, {}, { fillColor: fillColor });
             layer.url(url);
             
             // for single static files, try to recenter the map based on the geojson

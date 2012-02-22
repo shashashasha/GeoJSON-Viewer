@@ -49,9 +49,11 @@ trulia.maps.overlays.GeoJson = function(map, options, customDisplayOptions) {
 
     self.displayOptions = $.extend(customDisplayOptions, self.displayOptions);
 
-    if (customDisplayOptions.fillColor) {
-        self.displayOptions.Polygon.default.fillColor = customDisplayOptions.fillColor;
-        self.displayOptions.MultiPolygon.default.fillColor = customDisplayOptions.fillColor;
+    if (customDisplayOptions.color) {
+        self.displayOptions.Polygon.default.fillColor = customDisplayOptions.color;
+        self.displayOptions.Polygon.default.strokeColor = customDisplayOptions.color;
+        self.displayOptions.MultiPolygon.default.fillColor = customDisplayOptions.color;
+        self.displayOptions.MultiPolygon.default.strokeColor = customDisplayOptions.color;
     }
 
     // types of geojson
