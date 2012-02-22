@@ -16,7 +16,7 @@ $(function() {
 function addLayer(options) {
     var url = options['url'];
     var type = options['type'];
-    var fillColor = options['color'];
+    var color = options['color'];
 
     var layer = null, container = $("#mapContent");
     switch (type) {
@@ -29,7 +29,7 @@ function addLayer(options) {
                 container: container,
                 geohashPrecision: 10
           }, { 
-              fillColor: fillColor 
+              color: color 
           });
             break;
         // template takes url and assumes {maxlat}{maxlon}{minlat}{minlon} in the url somewhere
@@ -38,14 +38,14 @@ function addLayer(options) {
                 template: url, 
                 container: container
             }, { 
-               fillColor: fillColor 
+               color: color 
             });
             break;
         
         // geojson takes a single url
         case 'geojson':
         default:
-            layer = trulia.maps.overlays.GeoJson(geojsonmap.map, {}, { fillColor: fillColor });
+            layer = trulia.maps.overlays.GeoJson(geojsonmap.map, {}, { color: color });
             layer.url(url);
             
             // for single static files, try to recenter the map based on the geojson
