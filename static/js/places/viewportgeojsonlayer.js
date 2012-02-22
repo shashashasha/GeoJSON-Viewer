@@ -11,7 +11,7 @@ trulia.maps.overlays.ViewportGeoJson = function (map, options, customDisplayOpti
         var projection = self.getProjection();
         if (!projection || !self.attached) {
             return;
-        }  
+        }
 
         var tl = {x: 0, y: 0},
             bl = {x: 0, y: options.container.height()},
@@ -54,7 +54,6 @@ trulia.maps.overlays.ViewportGeoJson = function (map, options, customDisplayOpti
 
             self.url(dataURL);
         }
-        
     };
     
     // load a geojson file

@@ -4,78 +4,87 @@ $(function() {
 	geojsonmap = explore.map("mapContent", "hoverLabel", {
 		mapStyle: styles,
 		zoom: 12,
-		center: new google.maps.LatLng(40, -122.44)
+		center: new google.maps.LatLng(37.74, -122.44)
 	});
 
 	// default urls for testing
-	var url = urlParams['url'];
-	var type = urlParams['type'];
-
-	console.log(url, type);
-
-	var layer;
-	switch (type) {
-
-		// template takes url and assumes {hash} or {hashes} in the url somewhere
-		// if {hashes}, gives geohashes together separated by commas
-		case 'viewport-geohash':
-			layer = trulia.maps.overlays.ViewportGeoJson(geojsonmap.map, { 
-				geohash: url, 
-				container: $("#mapContent"),
-				geohashPrecision: 10
-		  }, {});
-			break;
-		// template takes url and assumes {maxlat}{maxlon}{minlat}{minlon} in the url somewhere
-		case 'viewport-bbox':
-			layer = trulia.maps.overlays.ViewportGeoJson(geojsonmap.map, { 
-				template: url, 
-				container: $("#mapContent") 
-			}, {});
-			break;
-		
-		// geojson takes a single url
-		case 'geojson':
-		default:
-			layer = trulia.maps.overlays.GeoJson(geojsonmap.map, {}, {});
-			layer.url(url);
-			
-			// for single static files, try to recenter the map based on the geojson
-			layer.postload(function() {
-				var features = layer.features;
-				var bounds = new google.maps.LatLngBounds();
-
-				if (features.length == 1) {
-					var feature = features[0];
-					
-					if (feature.getPosition) {
-						geojsonmap.map.setCenter(feature.getPosition());
-						return;
-					} else {
-						extendBounds(feature, bounds);	
-					}
-				} else {
-					for (var i = 0; i < features.length; i++) {
-						extendBounds(features[i], bounds);
-					}
-				}
-
-				geojsonmap.map.fitBounds(bounds);
-			});
-			break;
-	}
-
-	// attach the layer to the map
-	layer.attach(geojsonmap.map);
-
-	// add mouseovers?
-	layer.mouseover(function(e, feature, data) {
-	});
-
-	layer.mouseout(function(e, feature, data) {
-	});
+    addLayer(urlParams);
 
 	initUI();
 });
+
+function addLayer(options) {
+    var url = options['url'];
+    var type = options['type'];
+
+    var fillColor = options['fillColor'];
+
+    var layer = null, container = $("#mapContent");
+    switch (type) {
+
+        // template takes url and assumes {hash} or {hashes} in the url somewhere
+        // if {hashes}, gives geohashes together separated by commas
+        case 'viewport-geohash':
+            layer = trulia.maps.overlays.ViewportGeoJson(geojsonmap.map, { 
+                geohash: url, 
+                container: container,
+                geohashPrecision: 10
+          }, { 
+              fillColor: fillColor 
+          });
+            break;
+        // template takes url and assumes {maxlat}{maxlon}{minlat}{minlon} in the url somewhere
+        case 'viewport-bbox':
+            layer = trulia.maps.overlays.ViewportGeoJson(geojsonmap.map, { 
+                template: url, 
+                container: container
+            }, { 
+               fillColor: fillColor 
+            });
+            break;
+        
+        // geojson takes a single url
+        case 'geojson':
+        default:
+            layer = trulia.maps.overlays.GeoJson(geojsonmap.map, {}, , { fillColor: fillColor });
+            layer.url(url);
+            
+            // for single static files, try to recenter the map based on the geojson
+            layer.postload(function() {
+                var features = layer.features;
+                var bounds = new google.maps.LatLngBounds();
+
+                if (features.length == 1) {
+                    var feature = features[0];
+                    
+                    if (feature.getPosition) {
+                        geojsonmap.map.setCenter(feature.getPosition());
+                        return;
+                    } else {
+                        extendBounds(feature, bounds);  
+                    }
+                } else {
+                    for (var i = 0; i < features.length; i++) {
+                        extendBounds(features[i], bounds);
+                    }
+                }
+
+                geojsonmap.map.fitBounds(bounds);
+            });
+            break;
+    }
+
+    // attach the layer to the map
+    layer.attach(geojsonmap.map);
+
+    // add mouseovers?
+    layer.mouseover(function(e, feature, data) {
+        console.log('moused over', data);
+    });
+
+    layer.mouseout(function(e, feature, data) {
+    });
+}
 
 function extendBounds(feature, bounds){
 	if (feature.getPosition) {
@@ -119,7 +128,10 @@ function initUI() {
 	    		if (geojsonmap.map.getZoom() > 12) {
 		    		geojsonmap.map.panTo(response[0].geometry.location);	
 	    		} else {
-	    			geojsonmap.map.setCenterZoom(response[0].geometry.location, 12);	
+	    			geojsonmap.map.setOptions({
+		    			center: response[0].geometry.location, 
+		    			zoom: 12
+		    		});	
 	    		}
 	    	}
 	    });
