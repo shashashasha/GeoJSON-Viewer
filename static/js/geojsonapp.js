@@ -1,4 +1,6 @@
 var geojsonmap;
+var geojsonlabels;
+
 $(function() {
 	// create the geojson map
 	geojsonmap = explore.map("mapContent", "hoverLabel", {
@@ -10,6 +12,10 @@ $(function() {
 	// default urls for testing
     addLayer(urlParams);
 
+    geojsonlabels = explore.labels({}, geojsonmap.map);
+
+    geojsonlabels.addLabel('hover', '#infoWindow');
+    
 	initUI();
 });
 
@@ -79,9 +85,17 @@ function addLayer(options) {
     // add mouseovers?
     layer.mouseover(function(e, feature, data) {
         console.log('moused over', data);
+
+        var props = [];
+        for (var i in data.properties) {
+            props.push("<strong>" + i + "</strong>: " + data.properties[i]);
+        }
+
+        geojsonlabels.updateLabel('hover', props.join("<br />"));
     });
 
     layer.mouseout(function(e, feature, data) {
+        geojsonlabels.hideLabel('hover');
     });
 
     return layer;

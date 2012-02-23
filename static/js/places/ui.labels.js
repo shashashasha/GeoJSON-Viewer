@@ -12,8 +12,13 @@ explore.labels = function(options, map) {
     var self = {},
         infoLayer = new google.maps.OverlayView(),
         mapTop = $(map.getDiv()).offset().top,
+        mapID = map.getDiv().id,
         titleURLTemplate = '<a target="_top" class="whitecolortxtlink fleft pad5 padl10 f14 bold" data-index="48" href="{url}">{title}</a>',
         titleTemplate = '<div class="ellipsized whitecolortxtlink fleft pad5 padl10 f14 bold" >{title}</div>';
+
+    var otherLabels = {
+        length: 0
+    };
 
     // default vertical offset of the infowindow
     self.verticalOffset = 0;
@@ -24,14 +29,7 @@ explore.labels = function(options, map) {
     // the feature the infowindow is on
     self.infoWindowFeature = null;
 
-    self.hover = $(options.selectors.hoverLabelID);
-    self.info  = $(options.selectors.infoWindowID);
-    self.detail  = $(options.selectors.detailInfoID);
-    self.detailContainer  = $(options.selectors.detailInfoContainerID);
-    
     self.hide = function() {
-        self.hover.hide();
-
         if (otherLabels.length) {
             for (var name in otherLabels) {
                 var label = otherLabels[name];
@@ -45,13 +43,6 @@ explore.labels = function(options, map) {
     };
     
     self.clear = function() {
-        // clear data
-        self.infoWindowData = null;
-        self.info.hide();
-
-        // clear feature
-        self.infoWindowFeature = null;
-
         // call external onClear function
         if (self.onClear) {
             self.onClear();
@@ -60,59 +51,18 @@ explore.labels = function(options, map) {
         return self;
     };
 
-    self.clearDetail = function() {
-        self.detail.hide();
-        return self; 
-    };
-
-    self.openHover = function(event, feature, data) {
-        // open the infowindow based on the current hoverlabel data
-        var info = trulia.places.explorelabels.hoverLabelData;
-
-        // and grab the position from the current feature
-        info.location = feature.getPosition ? feature.getPosition() : feature.getCenter();
-
-        self.infoWindow(info); 
-
-        // store the feature to not open duplicate hoverlabels
-        self.infoWindowFeature = feature;
-    };
-
     self.attachMouseMove = function (delay) {
-      $('#places_map_module').unbind('mousemove.places');
-
       var updateHover = function(e) {
-        var top = e.pageY - self.hover.height() - self.verticalOffset - 20;
-        var left = e.pageX - 40;
+        if (otherLabels['hover']) {
+            var hover = otherLabels['hover'];
+            var top = e.pageY + 15;
+            var left = e.pageX + 15;
 
-        if (top < mapTop)
-        {
-          top = e.pageY + 40 - self.verticalOffset;
-          self.hover.addClass('invert_y');
-        }
-        else
-        {
-          self.hover.removeClass('invert_y');
-        }
-
-        if ((self.hover.width() + left) > $(map.getDiv()).width())
-        {
-          self.hover.addClass('invert_x').css({top: top, left: (left - self.hover.width() + 80) + 'px'});
-        }
-        else
-        {
-          self.hover.removeClass('invert_x').css({top: top, left: left});
+            hover.css({top: top, left: left, display: 'block'});
         }
       };
 
-      if (!delay)
-      {
-        $('#places_map_module').bind('mousemove.places', updateHover);
-      }
-      else
-      {
-        $('#places_map_module').bind('mousemove.places', _.debounce(updateHover, delay));
-      }
+      $(document).mousemove(updateHover);
     }
 
     self.attachMouseMove();
@@ -163,76 +113,20 @@ explore.labels = function(options, map) {
             }
 
             // reduce mouseover flickering
-            self.hover.hide();
+            if (otherLabels['hover'])
+                otherLabels['hover'].hide();
         };
 
         google.maps.event.addListener(map, 'bounds_changed', infoLayer.draw);
         google.maps.event.addListener(map, 'drag', infoLayer.draw);
         
         // clicking on the infowindow for now clears the infowindow
-        $(options.selectors.infoWindowCloseID).live('click', self.clear);
+        if (options.selectors && options.selectors.infoWindowCloseID)
+            $(options.selectors.infoWindowCloseID).live('click', self.clear);
     };
 
     setUpInfoWindow();
     
-    self.hoverLabel = function(data) {
-        var hoverHTML = options.hoverLabelTemplate.replace('{title}', data.title ? data.title : ''),
-            titleURL = data.trulia_url_path ? site_root + data.trulia_url_path.replace(/^\//, '') : data.url,
-            titleHTML = titleURL ? titleURLTemplate.replace('{url}', titleURL).replace('{title}', data.title) : titleTemplate.replace('{title}', data.title);
-
-        hoverHTML = hoverHTML.replace('{details}', data.details ? data.details : '');
-        hoverHTML = hoverHTML.replace('{titletext}', titleHTML);
-        
-        self.hover.show().html(hoverHTML);
-
-        self.hover.css('width', data.width || '280px');
-        var hoverHeight = $(options.selectors.hoverLabelID + ' .infowindow_contents').height();
-        self.hover.css('height', data.height ||  hoverHeight + 40 + 'px');
-
-        self.hoverLabelData = data;
-        
-        return self;
-    };
-    
-    self.infoWindow = function(data) {
-        var infoHTML = options.infoWindowTemplate.replace('{title}', data.title ? data.title : ''),
-            titleURL = data.trulia_url_path ? site_root + data.trulia_url_path.replace(/^\//, '') : data.url,
-            titleHTML = titleURL ? titleURLTemplate.replace('{url}', titleURL).replace('{title}', data.title) : titleTemplate.replace('{title}', data.title);
-        infoHTML = infoHTML.replace('{details}', data.details ? data.details : '');
-        infoHTML = infoHTML.replace('{titletext}', titleHTML);
-        
-        self.info.show().html(infoHTML);
-
-        self.info.css('width', data.width || '280px');
-        var hoverHeight = $(options.selectors.infoWindowID + ' .infowindow_contents').height();
-        self.info.css('height', data.height || hoverHeight + 40 + 'px');
-
-        self.infoWindowData = data;
-
-        infoLayer.draw();
-
-        self.hide();
-        
-        return self;
-    };
-
-    self.detailInfo = function(data) {
-        self.detailContainer.show();
-        
-        var detailHTML = options.detailInfoTemplate.replace('{details}', data.details);
-        self.detail.show().html(detailHTML);
-
-        var container = $(map.getDiv());
-        var height = container.height();
-        var margin = height - 36 - self.detail.height();
-        
-        self.detailContainer.css({'margin-top': margin + 'px'});
-        return self;
-    };
-
-    var otherLabels = {
-        length: 0
-    };
     self.addLabel = function(name, selector) {
         otherLabels[name] = $(selector);
         otherLabels.length ++;
@@ -249,6 +143,13 @@ explore.labels = function(options, map) {
         if (css) {
           label.css(css);
         }
+
+        return self;
+    };
+
+    self.hideLabel = function(name) {
+        if (otherLabels[name])
+            otherLabels[name].hide();
 
         return self;
     };
