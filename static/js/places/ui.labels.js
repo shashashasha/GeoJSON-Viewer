@@ -58,7 +58,7 @@ explore.labels = function(options, map) {
             var top = e.pageY + 15;
             var left = e.pageX + 15;
 
-            hover.css({top: top, left: left, display: 'block'});
+            hover.css({top: top, left: left });
         }
       };
 
@@ -110,11 +110,11 @@ explore.labels = function(options, map) {
         infoLayer.draw = function() {
             if (self.infoWindowData && self.infoWindowData.location) {
                 place(self.infoWindowData.location, self.info);
-            }
 
-            // reduce mouseover flickering
-            if (otherLabels['hover'])
-                otherLabels['hover'].hide();
+                // reduce mouseover flickering
+                if (otherLabels['hover'])
+                    otherLabels['hover'].hide();
+            }
         };
 
         google.maps.event.addListener(map, 'bounds_changed', infoLayer.draw);
