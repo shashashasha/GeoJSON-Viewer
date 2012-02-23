@@ -305,3 +305,15 @@ body {
     padding: 5px;
     background: #FFF;
 }
+
+
+#infoWindow {
+  position: absolute;
+  pointer-events: none;
+  background: white;
+  max-width: 400px;
+  padding: 5px;
+  z-index: 1337;
+  left: 32px;
+  top: 60px;
+}

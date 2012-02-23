@@ -175,6 +175,8 @@ trulia.maps.overlays.GeoJson = function(map, options, customDisplayOptions) {
     };
     
     self.loaded = function(data) {
+        if (!data) return;
+        
         if (!data.features) {
             data = JSON.parse(data);
         }

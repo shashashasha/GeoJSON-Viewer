@@ -20,6 +20,7 @@
 <script type="text/javascript" src="static/js/places/geojsonlayer.js"></script>
 <script type="text/javascript" src="static/js/places/viewportgeojsonlayer.js"></script>
 <script type="text/javascript" src="static/js/places/geohash.js"></script>
+<script type="text/javascript" src="static/js/places/ui.labels.js"></script>
 <script type="text/javascript" src="static/js/geojsonapp.js"></script>
 
 <style type="text/css">
@@ -44,14 +45,17 @@
             <div id="mapContent" style="width:100%; height:100%"></div>
         </div>
     	
+        <div id="infoWindow" class="boxShadow boxRound">Info</div>    
+
         <div id="mapControls">
-        		<div id="searchBox" class="boxShadow boxRound">
-        		    <form id="searchForm">
-        		        <label for="search">Jump to</label>
-        		        <input type="textArea" id="search" value="City, State or Zipcode" />
-        		        <input id="send" type="submit" value="Search it!" style="display:none;" />
-        		    </form>
-        		</div>
+
+    		<div id="searchBox" class="boxShadow boxRound">
+    		    <form id="searchForm">
+    		        <label for="search">Jump to</label>
+    		        <input type="textArea" id="search" value="City, State or Zipcode" />
+    		        <input id="send" type="submit" value="Search it!" style="display:none;" />
+    		    </form>
+    		</div>
 		
             <div id="zoomIn"  class="zoomButton boxShadow"><div id="zoomInImage">Zoom In</div></div>
             <div id="zoomOut" class="zoomButton boxShadow"><div id="zoomOutImage">Zoom Out</div></div>
