@@ -15,7 +15,7 @@ $(function() {
     geojsonlabels = explore.labels({}, geojsonmap.map);
 
     geojsonlabels.addLabel('hover', '#infoWindow');
-    
+
 	initUI();
 });
 
@@ -23,6 +23,9 @@ function addLayer(options) {
     var url = options['url'];
     var type = options['type'];
     var color = options['color'];
+
+    // hide property from the infowindow display
+    var hiddenProperty = options['hideProperty'];
 
     var layer = null, container = $("#mapContent");
     switch (type) {
@@ -84,14 +87,19 @@ function addLayer(options) {
 
     // add mouseovers?
     layer.mouseover(function(e, feature, data) {
-        console.log('moused over', data);
-
         var props = [];
         for (var i in data.properties) {
-            props.push("<strong>" + i + "</strong>: " + data.properties[i]);
+            // we can suppress properties if we want
+            if (i == hiddenProperty) continue;
+
+            if (data.properties[i] instanceof Array) {
+                props.push("<div><strong>" + i + "</strong>: " + data.properties[i].join(', ') + "</div>");
+            } else {
+                props.push("<div><strong>" + i + "</strong>: " + data.properties[i] + "</div>");   
+            }
         }
 
-        geojsonlabels.updateLabel('hover', props.join("<br />"));
+        geojsonlabels.updateLabel('hover', props.join(""));
     });
 
     layer.mouseout(function(e, feature, data) {
