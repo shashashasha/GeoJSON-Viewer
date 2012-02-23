@@ -21,6 +21,13 @@ trulia.maps.overlays.GeoJson = function(map, options, customDisplayOptions) {
     self.displayOptions = {
         // no default styles for points
         Point: {},
+        LineString: {
+            'default': {
+                strokeColor: "#559900",
+                strokeWeight: 3,
+                strokeOpacity: 0.75
+            }
+        },
         Polygon: {
             'default': {
                 fillColor: "#559900",
@@ -50,6 +57,7 @@ trulia.maps.overlays.GeoJson = function(map, options, customDisplayOptions) {
     self.displayOptions = $.extend(customDisplayOptions, self.displayOptions);
 
     if (customDisplayOptions.color) {
+        self.displayOptions.LineString.default.strokeColor = customDisplayOptions.color;
         self.displayOptions.Polygon.default.fillColor = customDisplayOptions.color;
         self.displayOptions.Polygon.default.strokeColor = customDisplayOptions.color;
         self.displayOptions.MultiPolygon.default.fillColor = customDisplayOptions.color;
@@ -64,6 +72,14 @@ trulia.maps.overlays.GeoJson = function(map, options, customDisplayOptions) {
                 position: location
             });
             return marker;
+        },
+
+        LineString: function(o, p) {
+            return new google.maps.Polyline({
+                path: o.coordinates.map(function(c) {
+                    return new google.maps.LatLng(c[1], c[0]);
+                })
+            });
         },
 
         Polygon: function(o, p) {
