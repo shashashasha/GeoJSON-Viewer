@@ -83,6 +83,8 @@ function addLayer(options) {
 
     layer.mouseout(function(e, feature, data) {
     });
+
+    return layer;
 }
 
 function extendBounds(feature, bounds){
