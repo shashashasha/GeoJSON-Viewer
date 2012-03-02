@@ -275,6 +275,10 @@ trulia.maps.overlays.GeoJson = function(map, options, customDisplayOptions) {
 
         if (mouseoutCallback) {
             google.maps.event.addListener(feature, "mouseout", function(e) {
+                if (self.displayOptions[type]['default']) {
+                    this.setOptions(self.displayOptions[type]['default']);
+                }
+                
                 if (self.displayOptions[type]['mouseout']) {
                     this.setOptions(self.displayOptions[type]['mouseout']);
                 }
@@ -285,8 +289,8 @@ trulia.maps.overlays.GeoJson = function(map, options, customDisplayOptions) {
 
         if (mouseoverCallback) {
             google.maps.event.addListener(feature, "mouseover", function(e) {
-                if (self.displayOptions[type]['mouseout']) {
-                    this.setOptions(self.displayOptions[type]['mouseout']);
+                if (self.displayOptions[type]['mouseover']) {
+                    this.setOptions(self.displayOptions[type]['mouseover']);
                 }
 
                 mouseoverCallback(e, this, data);
