@@ -12,7 +12,10 @@ trulia.maps.overlays.GeoJson = function(map, options, customDisplayOptions) {
     var self = trulia.maps.overlays.Layer(map, options),
         zIndex = 0,
         loadCallback = null,
-        postLoadCallback = null;
+        postLoadCallback = null,
+        mouseoverCallback = self.mouseover(),
+        mouseoutCallback = self.mouseout(),
+        clickCallback = self.click();
 
     // default marker image
     // 'media/images/marker_15x15.png'
@@ -236,6 +239,45 @@ trulia.maps.overlays.GeoJson = function(map, options, customDisplayOptions) {
             self.properties.push(data);   
         }
     };
+
+    // adds listeners to the feature based on the listener object
+    self.addListeners = function(feature, data) {
+        var type = data.geometry.type;
+        if (type == 'GeometryCollection') {
+            type = data.geometry.geometries[0].type;
+        }
+
+        if (clickCallback) {
+            google.maps.event.addListener(feature, "click", function(e) {
+                if (self.displayOptions[type]['click']) {
+                    this.setOptions(self.displayOptions[type]['click']);
+                }
+
+                clickCallback(e, this, data);
+            }); 
+        }
+
+        if (mouseoutCallback) {
+            google.maps.event.addListener(feature, "mouseout", function(e) {
+                if (self.displayOptions[type]['mouseout']) {
+                    this.setOptions(self.displayOptions[type]['mouseout']);
+                }
+
+                mouseoutCallback(e, this, data);
+            }); 
+        }
+
+        if (mouseoverCallback) {
+            google.maps.event.addListener(feature, "mouseover", function(e) {
+                if (self.displayOptions[type]['mouseout']) {
+                    this.setOptions(self.displayOptions[type]['mouseout']);
+                }
+
+                mouseoverCallback(e, this, data);
+            }); 
+        }
+    };
+
 
     // this function fires after data is loaded, before geojson is parsed
     self.onload = function(f) {
