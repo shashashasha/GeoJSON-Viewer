@@ -1,0 +1,26 @@
+GeoJSON Viewer
+
+A tool to help view GeoJSON, whether bounded in geohashes or bounding boxes
+
+// to add a geojson layer that is queryable by geohash
+var layer = addLayer({
+	url: http://url.com/?geohash={hash},
+	type: 'viewport-geohash'
+});
+
+// then you can add custom mouseovers or click handlers
+layer.mouseover(function(event, feature, data) {
+	// stuff goes here
+});
+
+// to add a geojson layer that is queryable by viewport
+var layer = addLayer({
+	url: http://url.com/?maxlat={maxlat}&minlat={minlat}&maxlon={maxlon}&minlon={minlon},
+	type: 'viewport-bbox'
+});
+
+
+
+Or, you can load the geojson viewer with url params:
+
+127.0.0.1:8000/static/viewer.html?url=http://url.com/?geohash={hash}&type=viewport-geohash

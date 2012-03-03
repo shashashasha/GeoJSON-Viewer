@@ -127,7 +127,6 @@ function extendBounds(feature, bounds){
 			}
 		});
 	}
-	
 }
 
 function initUI() {
@@ -159,7 +158,7 @@ function initUI() {
 	    	}
 	    });
 	    return false;
-	})
+	});
   
   // zoom controls
   $("#zoomIn").click(function(e) {
