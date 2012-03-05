@@ -289,8 +289,6 @@ trulia.maps.overlays.GeoJson = function(map, options, customDisplayOptions) {
 
         if (mouseoverCallback) {
             google.maps.event.addListener(feature, "mouseover", function(e) {
-                console.log(e);
-
                 if (self.displayOptions[type]['mouseover']) {
                     this.setOptions(self.displayOptions[type]['mouseover']);
                 }

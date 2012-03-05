@@ -40,7 +40,7 @@ trulia.maps.overlays.ImageTiles = function (map, options, customDisplayOptions) 
       img.style.borderWidth = '0px';
 
       // cross browser opacity (moved from details.css)
-      $(img).css('opacity', 0.75);
+      $(img).css('opacity', options.opacity || 0.75);
 
       // remove the image element if it 404s, no broken image icons
       $(img).error(function(e) {
@@ -77,7 +77,7 @@ trulia.maps.overlays.ImageTiles = function (map, options, customDisplayOptions) 
         }
         return self;
     };
-    
+
     return self;
 };
 
