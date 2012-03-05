@@ -174,6 +174,49 @@ function initUI() {
 	    });
 	    return false;
 	});
+
+    // add image map type layer to map, based on input TMS url with {x},{y},{z} wildcards.
+    var tms_url_label = "e.g. http://example.com/{x}/{y}/{z}.png";
+    var image_map_type = null;
+
+    $('#tms_url').val(tms_url_label);
+    $('#tms_url').focus(function() {
+        if ($(this).val() === tms_url_label) {
+            $(this).val("");
+        }
+    });
+    $('#tms_url').blur(function() {
+        if ($(this).val() === "") {
+            $(this).val(tms_url_label);
+        }
+    });
+    $('#add_tms_layer').click(function(){
+        // e.g. http://tiledevgen.sv2.trulia.com/tiles/population_density_heatmap/{z}/{x}/{y}.png
+        var url = $('#tms_url').val();
+
+        if (image_map_type !== null) {
+            geojsonmap.map.overlayMapTypes.removeAt(0);
+        }
+
+        image_map_type = new google.maps.ImageMapType({
+            getTileUrl: function(coord, zoom) {
+                var tile_url = url.replace("{x}", coord.x).replace("{y}", coord.y).replace("{z}", zoom);
+                console.log(tile_url);
+                return tile_url;
+            },
+            tileSize: new google.maps.Size(256, 256),
+            opacity: 0.7
+        });
+        geojsonmap.map.overlayMapTypes.insertAt(0, image_map_type);
+        return false;
+    });
+    $('#reset_tms_layer').click(function(){
+        if (image_map_type !== null) {
+            geojsonmap.map.overlayMapTypes.removeAt(0);
+            image_map_type = null;
+        }
+        return false;
+    });
   
   // zoom controls
   $("#zoomIn").click(function(e) {
