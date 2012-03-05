@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 <![endif]-->
 
-<title>GeoJSON GoogleMaps</title>
+<title>GeoJSON Viewer</title>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
 <script src="http://www.google.com/jsapi"></script>
@@ -55,10 +55,21 @@
     		        <input type="textArea" id="search" value="City, State or Zipcode" />
     		        <input id="send" type="submit" value="Search it!" style="display:none;" />
     		    </form>
+                <br />
+                <form method="get" id="addLayerForm">
+                    <label for="url">Add Layer</label>
+                    <input name="url" style="width: 170px;" />
+                    <label for="url">Layer Type</label>
+                    <select name="type">
+                       <option value="viewport-geohash">Geohash URL</option>
+                       <option value="viewport-bbox">Bbox URL</option>
+                    </select>
+                </form>
     		</div>
 		
             <div id="zoomIn"  class="zoomButton boxShadow"><div id="zoomInImage">Zoom In</div></div>
             <div id="zoomOut" class="zoomButton boxShadow"><div id="zoomOutImage">Zoom Out</div></div>
+
         </div>
         
         <div id="loadingIndicator" class="boxRound">
