@@ -33,6 +33,11 @@ function addLayer(options) {
     };
 
     switch (type) {
+        // image tiles
+        case 'image-tiles':
+            options.url = url;
+            layer = trulia.maps.overlays.ImageTiles(geojsonmap.map, options);
+            break;
 
         // template takes url and assumes {hash} or {hashes} in the url somewhere
         // if {hashes}, gives geohashes together separated by commas

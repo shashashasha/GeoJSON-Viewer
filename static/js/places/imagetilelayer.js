@@ -17,7 +17,7 @@ trulia.maps.overlays.ImageTiles = function (map, options, customDisplayOptions) 
     self.name = options && options.name ? options.name : "ImageTiles";
     self.alt = options && options.alt ? options.alt : "ImageTiles";
     
-    self.baseURL = _MAPTILE_SERVER + 'tiles/crime_heatmap/{Z}/{X}/{Y}.png';
+    self.baseURL = options.url || _MAPTILE_SERVER + 'tiles/crime_heatmap/{Z}/{X}/{Y}.png';
     
     self.getTile = function(coord, zoom, ownerDocument) {
       if (zoom < self.minZoom) {
