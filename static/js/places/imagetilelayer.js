@@ -77,6 +77,8 @@ trulia.maps.overlays.ImageTiles = function (map, options, customDisplayOptions) 
         }
         return self;
     };
+    
+    return self;
 };
 
 trulia.maps.overlays.ImageTiles.prototype = {}; // new google.maps.ImageMapType();
