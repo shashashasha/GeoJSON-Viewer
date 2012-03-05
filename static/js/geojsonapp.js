@@ -19,19 +19,19 @@ $(function() {
 	initUI();
 });
 
+function addImageMapType(tms_url) {
+
+}
+
 function addLayer(options) {
     var url = options['url'];
     var type = options['type'];
     var color = options['color'];
 
+    // hide property from the infowindow display
+    var hiddenProperty = options['hideProperty'];
+
     var layer = null, container = $("#mapContent");
-
-    var options = {
-        container: container,
-        mouseover: defaultMouseover(options),
-        mouseout: defaultMouseout(options)
-    };
-
     switch (type) {
         // image tiles
         case 'image-tiles':
@@ -42,19 +42,20 @@ function addLayer(options) {
         // template takes url and assumes {hash} or {hashes} in the url somewhere
         // if {hashes}, gives geohashes together separated by commas
         case 'viewport-geohash':
-            options.geohash = url;
-            options.geohashPrecision = 10;
-
-            layer = trulia.maps.overlays.ViewportGeoJson(geojsonmap.map, options, { 
+            layer = trulia.maps.overlays.ViewportGeoJson(geojsonmap.map, { 
+                geohash: url, 
+                container: container,
+                geohashPrecision: 10
+          }, { 
               color: color 
-            });
-
+          });
             break;
         // template takes url and assumes {maxlat}{maxlon}{minlat}{minlon} in the url somewhere
         case 'viewport-bbox':
-            options.template = url;
-
-            layer = trulia.maps.overlays.ViewportGeoJson(geojsonmap.map, options, { 
+            layer = trulia.maps.overlays.ViewportGeoJson(geojsonmap.map, { 
+                template: url, 
+                container: container
+            }, { 
                color: color 
             });
             break;
@@ -62,7 +63,7 @@ function addLayer(options) {
         // geojson takes a single url
         case 'geojson':
         default:
-            layer = trulia.maps.overlays.GeoJson(geojsonmap.map, options, { color: color });
+            layer = trulia.maps.overlays.GeoJson(geojsonmap.map, {}, { color: color });
             layer.url(url);
             
             // for single static files, try to recenter the map based on the geojson
@@ -93,15 +94,8 @@ function addLayer(options) {
     // attach the layer to the map
     layer.attach(geojsonmap.map);
 
-    return layer;
-}
-
-function defaultMouseover(options) {
-
-    // hide property from the infowindow display
-    var hiddenProperty = options['hideProperty'];
-
-    return function(e, feature, data) {
+    // add mouseovers?
+    layer.mouseover(function(e, feature, data) {
         var props = [];
         for (var i in data.properties) {
             // we can suppress properties if we want
@@ -115,13 +109,13 @@ function defaultMouseover(options) {
         }
 
         geojsonlabels.updateLabel('hover', props.join(""));
-    };
-}
+    });
 
-function defaultMouseout() { 
-    return function(e, feature, data) {
+    layer.mouseout(function(e, feature, data) {
         geojsonlabels.hideLabel('hover');
-    };
+    });
+
+    return layer;
 }
 
 function extendBounds(feature, bounds){
@@ -175,6 +169,48 @@ function initUI() {
 	    return false;
 	});
   
+    var tms_url_label = "e.g. http://example.com/{x}/{y}/{z}.png";
+    var image_map_type = null;
+
+    $('#tms_url').val(tms_url_label);
+    $('#tms_url').focus(function() {
+        if ($(this).val() === tms_url_label) {
+            $(this).val("");
+        }
+    });
+    $('#tms_url').blur(function() {
+        if ($(this).val() === "") {
+            $(this).val(tms_url_label);
+        }
+    });
+    $('#add_tms_layer').click(function(){
+        // e.g. http://tiledevgen.sv2.trulia.com/tiles/population_density_heatmap/{z}/{x}/{y}.png
+        var url = $('#tms_url').val();
+
+        if (image_map_type !== null) {
+            geojsonmap.map.overlayMapTypes.removeAt(0);
+        }
+
+        image_map_type = new google.maps.ImageMapType({
+            getTileUrl: function(coord, zoom) {
+                var tile_url = url.replace("{x}", coord.x).replace("{y}", coord.y).replace("{z}", zoom);
+                console.log(tile_url);
+                return tile_url;
+            },
+            tileSize: new google.maps.Size(256, 256),
+            opacity: 0.7
+        });
+        geojsonmap.map.overlayMapTypes.insertAt(0, image_map_type);
+        return false;
+    });
+    $('#reset_tms_layer').click(function(){
+        if (image_map_type !== null) {
+            geojsonmap.map.overlayMapTypes.removeAt(0);
+            image_map_type = null;
+        }
+        return false;
+    });
+
   // zoom controls
   $("#zoomIn").click(function(e) {
       geojsonmap.map.setZoom(geojsonmap.map.zoom + 1);

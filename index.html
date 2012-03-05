@@ -37,8 +37,14 @@
                     <a href="http://trulia.com/" alt="Trulia real estate and homes for sale"><img src="static/images/logo.png"></a>
                 </span>
                 <span id="headerBar" class="floatleft">
-                    <span id="title">GeoJSON Viewer</span>
-        		    </span>
+                    <form id="addTMSLayerForm">
+                        <label for="tms_url">TMS URL</label>
+                        <input type="text" id="tms_url" value="" style="width: 60%;"/>
+                        <input id="add_tms_layer" type="submit" value="Add layer" />
+                        <input id="reset_tms_layer" type="submit" value="Reset" />
+                    </form>
+                    <!-- <span id="title">GeoJSON Viewer</span> -->
+        		</span>
             </div>
         </div>
         
@@ -68,7 +74,7 @@
                     </select>
                 </form>
     		</div>
-		
+
             <div id="zoomIn"  class="zoomButton boxShadow"><div id="zoomInImage">Zoom In</div></div>
             <div id="zoomOut" class="zoomButton boxShadow"><div id="zoomOutImage">Zoom Out</div></div>
 
