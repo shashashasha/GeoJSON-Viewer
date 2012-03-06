@@ -31,17 +31,6 @@
 </head>
 <body>
     <div id="root" class="container">
-        <div id="top" class="boxShadow">
-            <div class="content">
-                <span id="logoImage" class="floatleft">
-                    <a href="http://trulia.com/" alt="Trulia real estate and homes for sale"><img src="static/images/logo.png"></a>
-                </span>
-                <span id="headerBar" class="floatleft">
-                    <span id="title">GeoJSON Viewer</span>
-        		    </span>
-            </div>
-        </div>
-        
         <div id="map">
             <div id="mapContent" style="width:100%; height:100%"></div>
         </div>
@@ -73,12 +62,14 @@
             <div id="zoomOut" class="zoomButton boxShadow"><div id="zoomOutImage">Zoom Out</div></div>
 
         </div>
-        
-        <div id="loadingIndicator" class="boxRound">
-            <img src="static/images/loading_white_sml.gif" alt="Loading"/>
+
+	    <div id="hoverLabel" class="hoverText boxRound boxShadow"></div>
+        <div id="about" class="boxShadow boxRound">
+            About
         </div>
-        
-	      <div id="hoverLabel" class="hoverText boxRound boxShadow"></div>
+        <div id="aboutDescription" class="boxShadow boxRound">
+            The GeoJSON Viewer is a project by Sha, Glen, and Talin at Trulia. <a href="https://github.com/shashashasha/GeoJSON-Viewer">Fork it on Github</a>.
+        </div>
 	  </div>
 </body>
 </html>

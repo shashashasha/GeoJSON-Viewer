@@ -1,18 +1,3 @@
-.floatleft {
-    float: left;
-}
-
-.floatright {
-    float: right;
-}
-
-.canvasTile {
-  /* for IE */
-  filter:alpha(opacity=75);
-  /* CSS3 standard */
-  opacity:0.75;
-}
-
 html {
     overflow: hidden;
     margin: 0px;
@@ -67,7 +52,6 @@ body {
 	      -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#FFFFFF', EndColorStr='#e8e8e8')"; 
 }
 
-
 /* hover label */
 #hoverLabel { 
 	display: none; position: absolute; padding: 10px;
@@ -110,86 +94,35 @@ body {
     font-weight: bold;
 }
 
-
-/* top bar */
-#top {
-    position: absolute;
-    z-index: 10;
+#about {
+    background: #000;
+    color: white;
     padding: 5px;
-    width: 100%;
-    min-width: 800px;
-    background: #FFFFFF;
-}
-
-#top .content {
-    background: #FFFFFF;
-    width: 100%;
-}
-
-#headerBar {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    -o-border-radius: 4px;
-    -ms-border-radius: 4px;
-    -khtml-border-radius: 4px;
-    border-radius: 4px;
-    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.2, #669900), color-stop(0.9, #9ed43c));
-    background-image: -moz-linear-gradient(center bottom, #669900 20%, #9ed43c 90%);
-    background-color: #669900;
-    background-image: linear-gradient(bottom, #9ed43c, #669900);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#9ed43c', EndColorStr='#669900');
-    margin-top: 3px;
-    height: 34px;
-    text-align: right;
+    font-weight: bold;
     position: absolute;
-    left: 113px;
-    right: 18px;
-    top: 5px;
-    bottom: 45px;
+    right: 10px;
+    bottom: 25px;
+    cursor: pointer;
 }
 
-#likes {
-  padding-top: 3px;
-  padding-left: 7px;
-  width: 285px;
+#aboutDescription {
+    display: none;
+    background: #000;
+    color: white;
+    position: absolute;
+    font-weight: bold;
+    padding: 10px;
+    width: 300px;
+    right: 10px;
+    bottom: 60px;
 }
 
-#facebookLike {
-  margin-top: 7px;
-  float: left;
+#aboutDescription a {
+    color: white;
 }
 
-#twitterLike {
-  margin-top: 7px;
-  margin-right: -5px;
-  float: left;
-}
-
-#stumbleLike {
-  margin-top: 8px;
-  margin-right: 7px;
-  float: left;
-}
-
-#title {
-  text-align: left;
-  float: left;
-  color: #FFFFFF;
-  font-size: 20px;
-  letter-spacing: 1px;
-  text-shadow: 1px 1px #777;
-  font-family: "Helvetica Neue Light", "HelveticaNeue-Light", Arial, Helvetica, sans-serif;
-  padding: 4px 10px 0 10px;
-}
-
-#logoImage {
-  padding-right: 5px;
-  padding-left: 5px;
-}
-
-#logoImage img {
-    border-style: none;
-    border: 0px none;
+#aboutDescription a:hover {
+    color: #0054a6;
 }
 
 #searchBox {
@@ -202,7 +135,7 @@ body {
 #mapControls {
     position: absolute;
     right: 10px;
-    top: 65px;
+    top: 10px;
 }
 
 #searchBox {
@@ -263,7 +196,7 @@ body {
 #map {
     position: absolute;
     z-index: 0;
-    top: 50px;
+    top: 0px;
     bottom: 0px;
     left: 0px;
     right: 0px;

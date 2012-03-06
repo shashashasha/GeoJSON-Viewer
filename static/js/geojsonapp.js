@@ -17,6 +17,10 @@ $(function() {
     geojsonlabels.addLabel('hover', '#infoWindow');
 
 	initUI();
+
+    $("#about").click(function() {
+        $("#aboutDescription").toggle(); 
+    });
 });
 
 function addLayer(options) {
