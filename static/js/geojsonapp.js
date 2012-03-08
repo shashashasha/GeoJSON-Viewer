@@ -3,10 +3,14 @@ var geojsonlabels;
 
 $(function() {
 	// create the geojson map
+    var ilat = parseFloat(urlParams['lat']) || 37.74;
+    var ilon = parseFloat(urlParams['lon']) || -122.44;
+    var izoom = parseInt(urlParams['zoom']) || 12;
+    
 	geojsonmap = explore.map("mapContent", "hoverLabel", {
 		mapStyle: styles,
-		zoom: 12,
-		center: new google.maps.LatLng(37.74, -122.44)
+		zoom: izoom,
+		center: new google.maps.LatLng(ilat, ilon)
 	});
 
 	// default urls for testing
