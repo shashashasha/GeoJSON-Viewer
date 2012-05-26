@@ -67,6 +67,10 @@ trulia.maps.overlays.GeoJson = function(map, options, customDisplayOptions) {
         self.displayOptions.MultiPolygon.default.strokeColor = customDisplayOptions.color;
     }
 
+    if (customDisplayOptions.icon) {
+        self.displayOptions.Point.default = { icon: customDisplayOptions.icon };
+    }
+
     // types of geojson
     self.types = {
         Point: function(o, p) {

@@ -30,14 +30,20 @@ $(function() {
 function addLayer(options) {
     var url = options['url'];
     var type = options['type'];
-    var color = options['color'];
+    var layer = null;
+    var container = $("#mapContent");
 
-    var layer = null, container = $("#mapContent");
-
+    // default options for mouseover
     var options = {
         container: container,
         mouseover: defaultMouseover(options),
         mouseout: defaultMouseout(options)
+    };
+
+    // for coloring or displaying geojson shapes / points
+    var displayOptions = {
+        color: options['color'],
+        icon: options['icon']
     };
 
     switch (type) {
@@ -53,24 +59,20 @@ function addLayer(options) {
             options.geohash = url;
             options.geohashPrecision = 10;
 
-            layer = trulia.maps.overlays.ViewportGeoJson(geojsonmap.map, options, { 
-              color: color 
-            });
+            layer = trulia.maps.overlays.ViewportGeoJson(geojsonmap.map, options, displayOptions);
 
             break;
         // template takes url and assumes {maxlat}{maxlon}{minlat}{minlon} in the url somewhere
         case 'viewport-bbox':
             options.template = url;
 
-            layer = trulia.maps.overlays.ViewportGeoJson(geojsonmap.map, options, { 
-               color: color 
-            });
+            layer = trulia.maps.overlays.ViewportGeoJson(geojsonmap.map, options, displayOptions);
             break;
         
         // geojson takes a single url
         case 'geojson':
         default:
-            layer = trulia.maps.overlays.GeoJson(geojsonmap.map, options, { color: color });
+            layer = trulia.maps.overlays.GeoJson(geojsonmap.map, options, displayOptions);
             layer.url(url);
             
             // for single static files, try to recenter the map based on the geojson
