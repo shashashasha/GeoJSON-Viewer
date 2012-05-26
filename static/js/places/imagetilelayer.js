@@ -52,9 +52,10 @@ trulia.maps.overlays.ImageTiles = function (map, options, customDisplayOptions) 
       return div;
     };
 
-    // general explore overlay functions
-    // is there a way to require an 'interface' in javascript?
-    
+    self.releaseTile = function(tile) {
+      $(tile).remove();
+    };
+
     self.toggle = function(t) {
         if (t) {
             self.attach(map);
@@ -75,10 +76,11 @@ trulia.maps.overlays.ImageTiles = function (map, options, customDisplayOptions) 
         if (map && map.overlayMapTypes.length) {
             map.overlayMapTypes.removeAt(0);
         }
+        
         return self;
     };
 
     return self;
 };
 
-trulia.maps.overlays.ImageTiles.prototype = {}; // new google.maps.ImageMapType();
+trulia.maps.overlays.ImageTiles.prototype = {};

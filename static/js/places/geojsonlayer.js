@@ -17,9 +17,6 @@ trulia.maps.overlays.GeoJson = function(map, options, customDisplayOptions) {
         mouseoutCallback = self.mouseout(),
         clickCallback = self.click();
 
-    // default marker image
-    // 'media/images/marker_15x15.png'
-
     // default style options
     self.displayOptions = {
         // no default styles for points
